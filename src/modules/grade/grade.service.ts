@@ -24,3 +24,12 @@ export const createGradeService = async (centerId: string, data: Grade) => {
   }
 };
 
+//get grade by center
+export const getGradesByCenterService =async(centerId:string | string[])=>{
+  try {
+    const grades = await Grade.find({centerId})
+    return grades;
+  } catch (error:any) {
+    throw new Error(error);
+  }
+}
