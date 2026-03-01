@@ -14,6 +14,8 @@ import {
 // POST /api/v1/user/register
 export const registerController = async (req: Request, res: Response) => {
   try {
+    console.log(req.body);
+    
     const result = await registerUserService(req.body);
     return res.status(201).json({ message: "Registration successful", ...result });
   } catch (error: any) {

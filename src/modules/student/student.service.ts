@@ -53,16 +53,19 @@ export const getStudentByIdService = async (studentId: string | string[]) => {
   }
 };
 
-export const updateStudentService = async (studentId: string | string[], studentData: StudentSchema) => {
+export const updateStudentService = async (studentId: string | string[], studentData: Partial<StudentSchema>) => {
   const updatedStudent = await Student.findByIdAndUpdate(
     studentId,
     studentData,
-    { new: true } 
-  );
-  return updatedStudent; 
+    { returnDocument: 'after' }
+  ).populate({
+    path: "grade",
+    populate: { path: "centerId", model: "Center" },
+  });
+  return updatedStudent;
 };
 
-export const deleteStudentService = async (studentId: string| string[]) => {
+export const deleteStudentService = async (studentId: string | string[]) => {
   const deletedStudent = await Student.findByIdAndDelete(studentId);
-  return deletedStudent; 
+  return deletedStudent;
 };

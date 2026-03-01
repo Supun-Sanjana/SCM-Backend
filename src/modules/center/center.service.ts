@@ -3,6 +3,9 @@ import Center from "./center.model";
 interface CenterData {
   centerName: string;
   centerLocation: string;
+  capacity?: number;
+  feePerMonth?: number;
+  status?: string;
 }
 
 // create center
@@ -11,6 +14,9 @@ export const createCenterService = async (data: CenterData) => {
     const res = await Center.create({
       centerName: data.centerName,
       centerLocation: data.centerLocation,
+      capacity: data.capacity ?? 0,
+      feePerMonth: data.feePerMonth ?? 0,
+      status: data.status ?? 'Active',
     });
     return res;
   } catch (error: any) {
@@ -45,9 +51,7 @@ export const updateCenterService = async (
   data: Partial<CenterData>
 ) => {
   try {
-    const updated = await Center.findByIdAndUpdate(centerId, data, {
-      new: true,
-    });
+    const updated = await Center.findByIdAndUpdate(centerId, data, { returnDocument: 'after' });
     if (!updated) throw new Error("CENTER_NOT_FOUND");
     return updated;
   } catch (error: any) {

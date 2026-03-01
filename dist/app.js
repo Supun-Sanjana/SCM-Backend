@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const cors_1 = __importDefault(require("cors"));
+const express_1 = __importDefault(require("express"));
+const health_routes_1 = __importDefault(require("./modules/health/health.routes"));
+const user_route_1 = __importDefault(require("./modules/user/user.route"));
+const center_route_1 = __importDefault(require("./modules/center/center.route"));
+const grade_route_1 = __importDefault(require("./modules/grade/grade.route"));
+const student_route_1 = __importDefault(require("./modules/student/student.route"));
+const app = (0, express_1.default)();
+app.use((0, cors_1.default)());
+app.use(express_1.default.json());
+app.use("/api/v1/health", health_routes_1.default);
+app.use("/api/v1/user", user_route_1.default);
+app.use("/api/v1/center", center_route_1.default);
+app.use("/api/v1/grade", grade_route_1.default);
+app.use("/api/v1/student", student_route_1.default);
+exports.default = app;

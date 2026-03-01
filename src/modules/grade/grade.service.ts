@@ -6,6 +6,7 @@ interface GradeData {
   schedule: Date[];
   available: boolean;
   students: string[];
+  testTemplates?: { title: string; totalMarks: number }[];
 }
 
 // create grade
@@ -56,7 +57,7 @@ export const updateGradeService = async (
   data: Partial<GradeData>
 ) => {
   try {
-    const updated = await Grade.findByIdAndUpdate(gradeId, data, { new: true });
+    const updated = await Grade.findByIdAndUpdate(gradeId, data, { returnDocument: 'after' });
     if (!updated) throw new Error("GRADE_NOT_FOUND");
     return updated;
   } catch (error: any) {
@@ -70,6 +71,42 @@ export const deleteGradeService = async (gradeId: string) => {
     const deleted = await Grade.findByIdAndDelete(gradeId);
     if (!deleted) throw new Error("GRADE_NOT_FOUND");
     return deleted;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
+
+// add test template to grade
+export const addTestTemplateService = async (
+  gradeId: string,
+  template: { title: string; totalMarks: number }
+) => {
+  try {
+    const grade = await Grade.findByIdAndUpdate(
+      gradeId,
+      { $push: { testTemplates: template } },
+      { returnDocument: 'after' }
+    );
+    if (!grade) throw new Error("GRADE_NOT_FOUND");
+    return grade;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
+
+// remove test template from grade
+export const removeTestTemplateService = async (
+  gradeId: string,
+  templateId: string
+) => {
+  try {
+    const grade = await Grade.findByIdAndUpdate(
+      gradeId,
+      { $pull: { testTemplates: { _id: templateId } } },
+      { returnDocument: 'after' }
+    );
+    if (!grade) throw new Error("GRADE_NOT_FOUND");
+    return grade;
   } catch (error: any) {
     throw new Error(error);
   }

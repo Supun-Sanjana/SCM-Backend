@@ -16,6 +16,8 @@ export const registerUserService = async (data: {
 }) => {
   const { firstName, lastName, email, password, role } = data;
 
+  console.log(firstName,lastName);
+  
   // Check if email already exists
   const existing = await User.findOne({ email });
   if (existing) throw new Error("EMAIL_EXISTS");
@@ -108,7 +110,7 @@ export const updateUserService = async (id: string | string[], data: any) => {
   if (data.password) {
     update.password = await bcrypt.hash(data.password, 10);
   }
-  const res = await User.findOneAndUpdate({ _id: id }, update, { new: true }).select("-password");
+  const res = await User.findOneAndUpdate({ _id: id }, update, { returnDocument: 'after' }).select("-password");
   return res;
 };
 

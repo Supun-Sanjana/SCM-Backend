@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const center_controller_1 = require("./center.controller");
+const centerRouter = (0, express_1.Router)();
+centerRouter.post("/", center_controller_1.createCenterController);
+centerRouter.get("/", center_controller_1.getAllCentersController);
+centerRouter.get("/:centerId", center_controller_1.getCenterByIdController);
+centerRouter.patch("/:centerId", center_controller_1.updateCenterController);
+centerRouter.delete("/:centerId", center_controller_1.deleteCenterController);
+exports.default = centerRouter;

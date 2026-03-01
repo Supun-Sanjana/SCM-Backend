@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const grade_controller_1 = require("./grade.controller");
+const gradeRouter = (0, express_1.Router)();
+gradeRouter.post("/:centerId", grade_controller_1.createGradeController);
+gradeRouter.get("/center/:centerId", grade_controller_1.getGradesByCenterController);
+gradeRouter.get("/:gradeId", grade_controller_1.getGradeByIdController);
+gradeRouter.patch("/:gradeId", grade_controller_1.updateGradeController);
+gradeRouter.delete("/:gradeId", grade_controller_1.deleteGradeController);
+gradeRouter.post("/:gradeId/test-template", grade_controller_1.addTestTemplateController);
+gradeRouter.delete("/:gradeId/test-template/:templateId", grade_controller_1.removeTestTemplateController);
+exports.default = gradeRouter;
